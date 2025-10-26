@@ -93,6 +93,10 @@
 
       <div>
         <div class="panel-title">Szczegóły zwierzaka</div>
+        <div>Charakter: ${animal.traits.join(", ")}</div>
+        ${animal.match ? `<div>Zgodność z adopcją: ${animal.match}%</div>` : ""}
+
+
         <div id="detail" class="muted">Wybierz zwierzaka z listy po lewej</div>
       </div>
     </section>
@@ -149,12 +153,21 @@
       id:Date.now()+"_"+Math.random().toString(36).slice(2,7),
       name: names[randInt(0,names.length-1)],
       species: Math.random()<0.7?'pies':'kot',
+            traits: randomFrom([
+        ["Spokojny", "Leniwy", "Cichy"],
+        ["Aktywny", "Wesoły", "Energiczny"],
+        ["Towarzyski", "Uroczy", "Ciekawski"],
+        ["Nieufny", "Samotnik", "Terytorialny"],
+        ["Opiekuńczy", "Cierpliwy", "Lojalny"]
+      ]),
+
       condition: cond.label,
       severity: Math.max(10, cond.sev + randInt(-15,15)),
       baseCost: cond.cost,
       health: Math.max(10,100-cond.sev + randInt(-10,10)),
       age: randInt(1,12),
       photo: null
+      
     }
   }
 
@@ -311,6 +324,11 @@ function renderApplicants() {
           <div style='margin-top:8px;display:flex;gap:8px'>
             <button onclick="treatAnimal('${a.id}')">Leczyć (${a.baseCost} zł)</button>
             <button class='ghost' onclick="markForAdoption('${a.id}')">Przygotuj do adopcji</button>
+                // Oblicz zgodność z losowym aplikantem
+    const app = genApplicantFor(animal);
+    animal.match = calcCompatibility(animal, app);
+    animal.applicant = app;
+
           </div>
         </div>
       </div>
@@ -430,7 +448,30 @@ function renderApplicants() {
     el.style.opacity = "1";
     setTimeout(() => el.style.opacity = "0.3", 1500);
   }
-  
+    function calcCompatibility(animal, app) {
+    let score = 0;
+
+    // charakter vs preferencje
+    const flatTraits = animal.traits.join(" ");
+    if (app.petPreference === "Spokojny" && flatTraits.includes("Spokojny")) score += 25;
+    if (app.petPreference === "Aktywny" && flatTraits.includes("Energiczny")) score += 25;
+    if (app.petPreference === "Towarzyski" && flatTraits.includes("Towarzyski")) score += 25;
+    if (app.petPreference === "Samotnik" && flatTraits.includes("Samotnik")) score += 25;
+
+    // warunki życiowe
+    if (app.hasGarden === "Tak") score += 10;
+    if (app.hasChildren === "Nie") score += 5; // np. dla nieufnych zwierząt to plus
+    if (app.hasSecuredBalcony === "Tak") score += 10;
+    if (app.hasStableIncome === "Tak") score += 10;
+    if (app.timeForPet === "Dużo") score += 10;
+
+    // losowy czynnik
+    score += randInt(0, 5);
+
+    if (score > 100) score = 100;
+    return score;
+  }
+
 
 })();
 </script>
