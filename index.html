@@ -33,8 +33,19 @@
     .applicant{display:flex;justify-content:space-between;align-items:center;padding:8px;border-radius:8px;background:linear-gradient(180deg,rgba(255,255,255,0.01),transparent)}
     footer{padding:12px;text-align:center;color:var(--muted);font-size:13px}
     .muted{color:var(--muted)}
+    .applicant-card ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 6px;
+}
+.applicant-card li {
+  font-size: 14px;
+  margin-bottom: 3px;
+}
+
     /* responsive */
     @media(max-width:1000px){.wrap{grid-template-columns:1fr;}}
+    
   </style>
 </head>
 <body>
@@ -91,8 +102,6 @@
       <div class="panel-title">Aplikanci/adopcje</div>
       <div id="appList" style="display:flex;flex-direction:column;gap:8px;margin-top:8px"></div>
       }
-
-`;
 
       <hr style="margin:12px 0;border:0;border-top:1px solid rgba(255,255,255,0.03)">
       <div class="panel-title">Szybkie wskaźniki</div>
@@ -158,22 +167,28 @@
   }
 
   // applicants generator
-  function genApplicantFor(animal){
-    const homeScore = randInt(0,100);
-    return {
-      id: 'app_'+Math.random().toString(36).slice(2,6),
-      const applicant = {
-  name: randomName(),
-  hasChildren: Math.random() < 0.5 ? "Tak" : "Nie",
-  petPreference: randomFrom(["Spokojny", "Aktywny", "Towarzyski", "Samotnik"]),
-  hasSecuredBalcony: Math.random() < 0.5 ? "Tak" : "Nie",
-  timeForPet: randomFrom(["Mało", "Średnio", "Dużo"]),
-  hasStableIncome: Math.random() < 0.7 ? "Tak" : "Nie",
-  homeSize: randomFrom(["Kawalerka (30m²)", "Mieszkanie (60m²)", "Dom (120m²)"]),
-  hasGarden: Math.random() < 0.4 ? "Tak" : "Nie",
-  personality: randomFrom(["Cierpliwa", "Nerwowa", "Opiekuńcza", "Zorganizowana", "Chaotyczna"]),
-  hasEquipment: randomFrom(["Pełne wyposażenie", "Brakuje części akcesoriów", "Nieprzygotowany"]),
-};
+  function genApplicantFor(animal) {
+  function randomFrom(array) {
+    return array[Math.floor(Math.random() * array.length)];
+  }
+
+  const applicant = {
+    id: 'app_' + Math.random().toString(36).slice(2, 6),
+    name: randomFrom(['Anna', 'Kasia', 'Ewa', 'Marta', 'Jan', 'Tomek', 'Ola', 'Karol', 'Magda', 'Piotr']),
+    hasChildren: Math.random() < 0.5 ? "Tak" : "Nie",
+    petPreference: randomFrom(["Spokojny", "Aktywny", "Towarzyski", "Samotnik"]),
+    hasSecuredBalcony: Math.random() < 0.5 ? "Tak" : "Nie",
+    timeForPet: randomFrom(["Mało", "Średnio", "Dużo"]),
+    hasStableIncome: Math.random() < 0.7 ? "Tak" : "Nie",
+    homeSize: randomFrom(["Kawalerka (30m²)", "Mieszkanie (60m²)", "Dom (120m²)"]),
+    hasGarden: Math.random() < 0.4 ? "Tak" : "Nie",
+    personality: randomFrom(["Cierpliwa", "Nerwowa", "Opiekuńcza", "Zorganizowana", "Chaotyczna"]),
+    hasEquipment: randomFrom(["Pełne wyposażenie", "Brakuje części akcesoriów", "Nieprzygotowany"]),
+    score: randInt(30, 100) // losowy wynik oceny
+  };
+  return applicant;
+}
+
 function randomFrom(array) {
   return array[Math.floor(Math.random() * array.length)];
 
@@ -216,33 +231,34 @@ function randomFrom(array) {
     renderAnimals();
   }
 
-  function renderApplicants(){
-    const el=document.getElementById('appList'); el.innerHTML='';
-    applicants.forEach((app,i)=>{
-      const node=document.createElement('div'); node.className='applicant';
-      node.innerHTML = `<div><strong>${app.name}</strong><div class='muted' style='font-size:12px'>${app.notes}</div></div>
-        <div style='display:flex;gap:6px'>
-        applicantList.innerHTML += `
-  <div class="applicant-card">
-    <h3>${applicant.name}</h3>
-    <ul>
-      <li><b>Dzieci:</b> ${applicant.hasChildren}</li>
-      <li><b>Charakter zwierzaka:</b> ${applicant.petPreference}</li>
-      <li><b>Zabezpieczony balkon:</b> ${applicant.hasSecuredBalcony}</li>
-      <li><b>Czas dla zwierzaka:</b> ${applicant.timeForPet}</li>
-      <li><b>Stały dochód:</b> ${applicant.hasStableIncome}</li>
-      <li><b>Wielkość mieszkania:</b> ${applicant.homeSize}</li>
-      <li><b>Ogródek:</b> ${applicant.hasGarden}</li>
-      <li><b>Charakter:</b> ${applicant.personality}</li>
-      <li><b>Wyposażenie:</b> ${applicant.hasEquipment}</li>
-    </ul>
-  </div>
-          <button class='ghost' onclick="rejectApplicant('${app.id}')">Odrzuć</button>
-          <button onclick="approveApplicant('${app.id}')">Sprawdź & zdecyduj</button>
-        </div>`;
-      el.appendChild(node);
-    })
-  }
+function renderApplicants() {
+  const el = document.getElementById('appList');
+  el.innerHTML = '';
+  applicants.forEach(app => {
+    const node = document.createElement('div');
+    node.className = 'applicant-card';
+    node.innerHTML = `
+      <h3>${app.name}</h3>
+      <ul>
+        <li><b>Dzieci:</b> ${app.hasChildren}</li>
+        <li><b>Charakter zwierzaka:</b> ${app.petPreference}</li>
+        <li><b>Zabezpieczony balkon:</b> ${app.hasSecuredBalcony}</li>
+        <li><b>Czas dla zwierzaka:</b> ${app.timeForPet}</li>
+        <li><b>Stały dochód:</b> ${app.hasStableIncome}</li>
+        <li><b>Wielkość mieszkania:</b> ${app.homeSize}</li>
+        <li><b>Ogródek:</b> ${app.hasGarden}</li>
+        <li><b>Charakter:</b> ${app.personality}</li>
+        <li><b>Wyposażenie:</b> ${app.hasEquipment}</li>
+      </ul>
+      <div style="display:flex;gap:6px;margin-top:6px;">
+        <button class='ghost' onclick="rejectApplicant('${app.id}')">Odrzuć</button>
+        <button onclick="approveApplicant('${app.id}')">Sprawdź & zdecyduj</button>
+      </div>
+    `;
+    el.appendChild(node);
+  });
+}
+
 
   window.rejectApplicant = function(id){
     const i=applicants.findIndex(x=>x.id==id); if(i<0) return; const a=applicants.splice(i,1)[0];
@@ -421,21 +437,13 @@ function randomFrom(array) {
     el.style.opacity = "1";
     setTimeout(() => el.style.opacity = "0.3", 1500);
   }
-  .applicant-card ul {
-  list-style: none;
-  padding: 0;
-  margin-top: 6px;
-}
-
-.applicant-card li {
-  font-size: 14px;
-  margin-bottom: 3px;
-}
-
+  
 
 })();
 </script>
   <style>
+    
+
 #saveIndicator {
   transition: opacity 0.6s;
 }
