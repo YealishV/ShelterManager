@@ -167,33 +167,27 @@
   }
 
   // applicants generator
+   // generator aplikantów
   function genApplicantFor(animal) {
-  function randomFrom(array) {
-    return array[Math.floor(Math.random() * array.length)];
-  }
-
-  const applicant = {
-    id: 'app_' + Math.random().toString(36).slice(2, 6),
-    name: randomFrom(['Anna', 'Kasia', 'Ewa', 'Marta', 'Jan', 'Tomek', 'Ola', 'Karol', 'Magda', 'Piotr']),
-    hasChildren: Math.random() < 0.5 ? "Tak" : "Nie",
-    petPreference: randomFrom(["Spokojny", "Aktywny", "Towarzyski", "Samotnik"]),
-    hasSecuredBalcony: Math.random() < 0.5 ? "Tak" : "Nie",
-    timeForPet: randomFrom(["Mało", "Średnio", "Dużo"]),
-    hasStableIncome: Math.random() < 0.7 ? "Tak" : "Nie",
-    homeSize: randomFrom(["Kawalerka (30m²)", "Mieszkanie (60m²)", "Dom (120m²)"]),
-    hasGarden: Math.random() < 0.4 ? "Tak" : "Nie",
-    personality: randomFrom(["Cierpliwa", "Nerwowa", "Opiekuńcza", "Zorganizowana", "Chaotyczna"]),
-    hasEquipment: randomFrom(["Pełne wyposażenie", "Brakuje części akcesoriów", "Nieprzygotowany"]),
-    score: randInt(30, 100) // losowy wynik oceny
-  };
-  return applicant;
-}
-
-function randomFrom(array) {
-  return array[Math.floor(Math.random() * array.length)];
-
-
+    function randomFrom(array) {
+      return array[Math.floor(Math.random() * array.length)];
     }
+
+    const applicant = {
+      id: 'app_' + Math.random().toString(36).slice(2, 6),
+      name: randomFrom(['Anna', 'Kasia', 'Ewa', 'Marta', 'Jan', 'Tomek', 'Ola', 'Karol', 'Magda', 'Piotr']),
+      hasChildren: Math.random() < 0.5 ? "Tak" : "Nie",
+      petPreference: randomFrom(["Spokojny", "Aktywny", "Towarzyski", "Samotnik"]),
+      hasSecuredBalcony: Math.random() < 0.5 ? "Tak" : "Nie",
+      timeForPet: randomFrom(["Mało", "Średnio", "Dużo"]),
+      hasStableIncome: Math.random() < 0.7 ? "Tak" : "Nie",
+      homeSize: randomFrom(["Kawalerka (30m²)", "Mieszkanie (60m²)", "Dom (120m²)"]),
+      hasGarden: Math.random() < 0.4 ? "Tak" : "Nie",
+      personality: randomFrom(["Cierpliwa", "Nerwowa", "Opiekuńcza", "Zorganizowana", "Chaotyczna"]),
+      hasEquipment: randomFrom(["Pełne wyposażenie", "Brakuje części akcesoriów", "Nieprzygotowany"]),
+      score: randInt(30, 100)
+    };
+    return applicant;
   }
 
   // rendering
