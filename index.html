@@ -159,12 +159,38 @@
     const homeScore = randInt(0,100);
     return {
       id: 'app_'+Math.random().toString(36).slice(2,6),
-      name: ['Anna','Marek','Sylwia','Bartek','Ola','Piotr'][randInt(0,5)],
-      hasKids: Math.random()<0.4,
-      hasYard: Math.random()<0.5,
-      otherPets: Math.random()<0.35,
-      score: homeScore,
-      notes: homeScore>70? 'Stabilne warunki, doświadczenie w opiece':'Warunki wątpliwe — np. mieszkanie kawalerka, brak doświadczenia'
+      const applicant = {
+  name: randomName(),
+  hasChildren: Math.random() < 0.5 ? "Tak" : "Nie",
+  petPreference: randomFrom(["Spokojny", "Aktywny", "Towarzyski", "Samotnik"]),
+  hasSecuredBalcony: Math.random() < 0.5 ? "Tak" : "Nie",
+  timeForPet: randomFrom(["Mało", "Średnio", "Dużo"]),
+  hasStableIncome: Math.random() < 0.7 ? "Tak" : "Nie",
+  homeSize: randomFrom(["Kawalerka (30m²)", "Mieszkanie (60m²)", "Dom (120m²)"]),
+  hasGarden: Math.random() < 0.4 ? "Tak" : "Nie",
+  personality: randomFrom(["Cierpliwa", "Nerwowa", "Opiekuńcza", "Zorganizowana", "Chaotyczna"]),
+  hasEquipment: randomFrom(["Pełne wyposażenie", "Brakuje części akcesoriów", "Nieprzygotowany"]),
+};
+function randomFrom(array) {
+  return array[Math.floor(Math.random() * array.length)];
+}
+applicantList.innerHTML += `
+  <div class="applicant-card">
+    <h3>${applicant.name}</h3>
+    <ul>
+      <li><b>Dzieci:</b> ${applicant.hasChildren}</li>
+      <li><b>Charakter zwierzaka:</b> ${applicant.petPreference}</li>
+      <li><b>Zabezpieczony balkon:</b> ${applicant.hasSecuredBalcony}</li>
+      <li><b>Czas dla zwierzaka:</b> ${applicant.timeForPet}</li>
+      <li><b>Stały dochód:</b> ${applicant.hasStableIncome}</li>
+      <li><b>Wielkość mieszkania:</b> ${applicant.homeSize}</li>
+      <li><b>Ogródek:</b> ${applicant.hasGarden}</li>
+      <li><b>Charakter:</b> ${applicant.personality}</li>
+      <li><b>Wyposażenie:</b> ${applicant.hasEquipment}</li>
+    </ul>
+  </div>
+`;
+
     }
   }
 
@@ -393,6 +419,17 @@
     el.style.opacity = "1";
     setTimeout(() => el.style.opacity = "0.3", 1500);
   }
+  .applicant-card ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 6px;
+}
+
+.applicant-card li {
+  font-size: 14px;
+  margin-bottom: 3px;
+}
+
 
 })();
 </script>
