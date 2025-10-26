@@ -90,6 +90,9 @@
     <section class="card">
       <div class="panel-title">Aplikanci/adopcje</div>
       <div id="appList" style="display:flex;flex-direction:column;gap:8px;margin-top:8px"></div>
+      }
+
+`;
 
       <hr style="margin:12px 0;border:0;border-top:1px solid rgba(255,255,255,0.03)">
       <div class="panel-title">Szybkie wskaźniki</div>
@@ -173,23 +176,7 @@
 };
 function randomFrom(array) {
   return array[Math.floor(Math.random() * array.length)];
-}
-applicantList.innerHTML += `
-  <div class="applicant-card">
-    <h3>${applicant.name}</h3>
-    <ul>
-      <li><b>Dzieci:</b> ${applicant.hasChildren}</li>
-      <li><b>Charakter zwierzaka:</b> ${applicant.petPreference}</li>
-      <li><b>Zabezpieczony balkon:</b> ${applicant.hasSecuredBalcony}</li>
-      <li><b>Czas dla zwierzaka:</b> ${applicant.timeForPet}</li>
-      <li><b>Stały dochód:</b> ${applicant.hasStableIncome}</li>
-      <li><b>Wielkość mieszkania:</b> ${applicant.homeSize}</li>
-      <li><b>Ogródek:</b> ${applicant.hasGarden}</li>
-      <li><b>Charakter:</b> ${applicant.personality}</li>
-      <li><b>Wyposażenie:</b> ${applicant.hasEquipment}</li>
-    </ul>
-  </div>
-`;
+
 
     }
   }
@@ -235,6 +222,21 @@ applicantList.innerHTML += `
       const node=document.createElement('div'); node.className='applicant';
       node.innerHTML = `<div><strong>${app.name}</strong><div class='muted' style='font-size:12px'>${app.notes}</div></div>
         <div style='display:flex;gap:6px'>
+        applicantList.innerHTML += `
+  <div class="applicant-card">
+    <h3>${applicant.name}</h3>
+    <ul>
+      <li><b>Dzieci:</b> ${applicant.hasChildren}</li>
+      <li><b>Charakter zwierzaka:</b> ${applicant.petPreference}</li>
+      <li><b>Zabezpieczony balkon:</b> ${applicant.hasSecuredBalcony}</li>
+      <li><b>Czas dla zwierzaka:</b> ${applicant.timeForPet}</li>
+      <li><b>Stały dochód:</b> ${applicant.hasStableIncome}</li>
+      <li><b>Wielkość mieszkania:</b> ${applicant.homeSize}</li>
+      <li><b>Ogródek:</b> ${applicant.hasGarden}</li>
+      <li><b>Charakter:</b> ${applicant.personality}</li>
+      <li><b>Wyposażenie:</b> ${applicant.hasEquipment}</li>
+    </ul>
+  </div>
           <button class='ghost' onclick="rejectApplicant('${app.id}')">Odrzuć</button>
           <button onclick="approveApplicant('${app.id}')">Sprawdź & zdecyduj</button>
         </div>`;
